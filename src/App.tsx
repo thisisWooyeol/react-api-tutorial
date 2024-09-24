@@ -1,9 +1,17 @@
-import './reset.css';
+import './global.css';
 
-import { useReducer } from 'react';
+import { useState } from 'react';
+
+import { PostDetail } from './PostDetail';
+import { PostList } from './PostList';
 
 export const App = () => {
-  const [count, increment] = useReducer((c: number) => c + 1, 0);
-
-  return <button onClick={increment}>{count}</button>;
+  const baseUrl = 'https://jsonplaceholder.typicode.com';
+  const [selectedPostId] = useState(1);
+  return (
+    <div>
+      <PostList baseUrl={baseUrl} />
+      <PostDetail baseUrl={baseUrl} selectedPostId={selectedPostId} />
+    </div>
+  );
 };
