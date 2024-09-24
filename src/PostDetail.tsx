@@ -9,24 +9,11 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
+import { type Comment, type Post } from './App';
+
 type PostDetailProps = {
   baseUrl: string;
   selectedPostId: number;
-};
-
-type Post = {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-};
-
-type Comment = {
-  postId: number;
-  id: number;
-  name: string;
-  email: string;
-  body: string;
 };
 
 const fetchPost = async ({
