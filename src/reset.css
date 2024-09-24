@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /*
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
@@ -40,4 +44,9 @@ h6 {
 #root,
 #__next {
   isolation: isolate;
+}
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
 }
