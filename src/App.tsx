@@ -29,8 +29,9 @@ const fetchPosts = async (baseUrl: string): Promise<Post[]> => {
 export const App = () => {
   const baseUrl = 'https://jsonplaceholder.typicode.com';
   const [posts, setPosts] = useState<Post[]>();
-  const [selectedPostId] = useState(1);
+  const [selectedPostId, setSelectedPost] = useState(1);
 
+  /* fetchPosts */
   useEffect(() => {
     let ignore = false;
     fetchPosts(baseUrl)
@@ -46,9 +47,17 @@ export const App = () => {
     };
   }, [baseUrl]);
 
+  /* handle post selection */
+  const onPostClickBuilder = (postId: number) => () => {
+    console.debug(`Post clicked: ${postId}`);
+    setSelectedPost(postId);
+  };
+
   return (
     <div>
-      {posts != null && <PostList posts={posts} />}
+      {posts != null && (
+        <PostList posts={posts} onPostClickBuilder={onPostClickBuilder} />
+      )}
       <PostDetail baseUrl={baseUrl} selectedPostId={selectedPostId} />
     </div>
   );
