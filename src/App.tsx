@@ -7,7 +7,7 @@ import { PostList } from './PostList';
 
 export const App = () => {
   const baseUrl = 'https://jsonplaceholder.typicode.com';
-  const [selectedPostId, setSelectedPostId] = useState(1);
+  const [selectedPostId] = useState(1);
   return (
     <div>
       <PostList baseUrl={baseUrl} />
