@@ -9,60 +9,48 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
-import { type Comment, type Post } from './App';
+import { baseUrl, type Post } from './App';
 
 type PostDetailProps = {
-  baseUrl: string;
-  selectedPostId: number;
+  selectedPost: Post | undefined;
 };
 
-const fetchPost = async ({
-  baseUrl,
-  selectedPostId,
-}: PostDetailProps): Promise<Post> => {
-  const response = await fetch(`${baseUrl}/posts/${selectedPostId}`);
-  const data = (await response.json()) as Post;
-  return data;
+type Comment = {
+  postId: number;
+  id: number;
+  name: string;
+  email: string;
+  body: string;
 };
 
-const fetchComments = async ({
-  baseUrl,
-  selectedPostId,
-}: PostDetailProps): Promise<Comment[]> => {
+const fetchComments = async (selectedPostId: number): Promise<Comment[]> => {
   const response = await fetch(`${baseUrl}/posts/${selectedPostId}/comments`);
   const data = (await response.json()) as Comment[];
   return data;
 };
 
-export const PostDetail = ({ baseUrl, selectedPostId }: PostDetailProps) => {
-  const [selectedPost, setSelectedPost] = useState<Post>();
+export const PostDetail = ({ selectedPost }: PostDetailProps) => {
   const [comments, setComments] = useState<Comment[]>();
 
   useEffect(() => {
     let ignore = false;
-    fetchPost({ baseUrl, selectedPostId })
-      .then((data) => {
-        if (!ignore) {
-          setSelectedPost(data);
-          fetchComments({ baseUrl, selectedPostId })
-            .then((_comments) => {
-              setComments(_comments);
-            })
-            .catch((error: unknown) => {
-              console.error(error);
-            });
-        }
-      })
-      .catch((error: unknown) => {
-        console.error(error);
-      });
-    return () => {
-      ignore = true;
-    };
-  });
+    if (selectedPost != null) {
+      fetchComments(selectedPost.id)
+        .then((_comments) => {
+          if (!ignore) setComments(_comments);
+        })
+        .catch((error: unknown) => {
+          console.error(error);
+          window.alert('데이터를 가져오지 못했습니다.');
+        });
+      return () => {
+        ignore = true;
+      };
+    }
+  }, [selectedPost]);
 
   return (
-    <>
+    <div>
       <h1 className="text-5xl">Post Detail</h1>
       {selectedPost != null && (
         <Card key={selectedPost.id}>
@@ -85,7 +73,7 @@ export const PostDetail = ({ baseUrl, selectedPostId }: PostDetailProps) => {
         <CardContent>
           <ul>
             {comments?.map((comment) => (
-              <li key={comment.id} className="border-b border-gray-300">
+              <li key={comment.id} className="border-b p-2 border-gray-300">
                 <h3>{comment.name}</h3>
                 <p>{comment.body}</p>
               </li>
@@ -96,6 +84,6 @@ export const PostDetail = ({ baseUrl, selectedPostId }: PostDetailProps) => {
           <button>Load More</button>
         </CardFooter>
       </Card>
-    </>
+    </div>
   );
 };

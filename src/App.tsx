@@ -1,4 +1,4 @@
-import './global.css';
+import './App.css';
 
 import { useEffect, useState } from 'react';
 
@@ -12,40 +12,33 @@ export type Post = {
   body: string;
 };
 
-export type Comment = {
-  postId: number;
-  id: number;
-  name: string;
-  email: string;
-  body: string;
-};
+export const baseUrl = 'https://jsonplaceholder.typicode.com';
 
-const fetchPosts = async (baseUrl: string): Promise<Post[]> => {
+const fetchPosts = async (): Promise<Post[]> => {
   const response = await fetch(`${baseUrl}/posts`);
   const data = (await response.json()) as Post[];
   return data;
 };
 
 export const App = () => {
-  const baseUrl = 'https://jsonplaceholder.typicode.com';
   const [posts, setPosts] = useState<Post[]>();
   const [selectedPostId, setSelectedPost] = useState(1);
 
   /* fetchPosts */
   useEffect(() => {
     let ignore = false;
-    fetchPosts(baseUrl)
+    fetchPosts()
       .then((data) => {
         if (!ignore) setPosts(data);
       })
       .catch((error: unknown) => {
         console.error(error);
-        alert('데이터를 불러오지 못하였습니다.');
+        window.alert('데이터를 가져오지 못했습니다');
       });
     return () => {
       ignore = true;
     };
-  }, [baseUrl]);
+  }, []);
 
   /* handle post selection */
   const onPostClickBuilder = (postId: number) => () => {
@@ -54,11 +47,13 @@ export const App = () => {
   };
 
   return (
-    <div>
+    <div className="max-w-screen-lg">
       {posts != null && (
-        <PostList posts={posts} onPostClickBuilder={onPostClickBuilder} />
+        <div className="grid grid-flow-col m-8">
+          <PostList posts={posts} onPostClickBuilder={onPostClickBuilder} />
+          <PostDetail selectedPost={posts.at(selectedPostId - 1)} />
+        </div>
       )}
-      <PostDetail baseUrl={baseUrl} selectedPostId={selectedPostId} />
     </div>
   );
 };

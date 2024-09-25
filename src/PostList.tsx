@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 import { type Post } from './App';
 
@@ -16,22 +17,24 @@ type PostListProps = {
 export const PostList = ({ posts, onPostClickBuilder }: PostListProps) => {
   return (
     <div>
-      <h1 className="text-5xl">Post List</h1>
-      {posts.map((post) => (
-        <Card
-          key={post.id}
-          className="m-1 hover:opacity-50"
-          onClick={onPostClickBuilder(post.id)}
-        >
-          <CardHeader>
-            <CardTitle>{post.title}</CardTitle>
-            <CardDescription>작성자: {post.userId}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p>{post.body}</p>
-          </CardContent>
-        </Card>
-      ))}
+      <h1 className="text-4xl">포스트 목록</h1>
+      <ScrollArea className="h-svh overflow-y-auto">
+        {posts.map((post) => (
+          <Card
+            key={post.id}
+            className="m-1 hover:opacity-50"
+            onClick={onPostClickBuilder(post.id)}
+          >
+            <CardHeader>
+              <CardTitle>{post.title}</CardTitle>
+              <CardDescription>작성자: {post.userId}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p>{post.body}</p>
+            </CardContent>
+          </Card>
+        ))}
+      </ScrollArea>
     </div>
   );
 };
