@@ -13,5 +13,5 @@ h2 {
 
 @font-face {
   font-family: 'BMEuljiro';
-  src: url(./fonts/BMEULJIROTTF.ttf);
+  src: url(/fonts/BMEULJIROTTF.woff2) format('woff2');
 }
