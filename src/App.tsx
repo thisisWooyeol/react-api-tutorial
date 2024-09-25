@@ -52,7 +52,9 @@ export const App = () => {
     <div className="flex justify-center">
       {posts != null && (
         <div className="m-4 grid max-w-screen-lg grid-flow-col gap-x-4 border border-zinc-300 p-6">
-          <PostList posts={posts} onPostClickBuilder={onPostClickBuilder} />
+          <div className="w-[25vw]">
+            <PostList posts={posts} onPostClickBuilder={onPostClickBuilder} />
+          </div>
           <Separator orientation="vertical" />
           <PostDetail
             selectedPost={posts.find(
