@@ -7,3 +7,11 @@
   padding: 2rem;
   text-align: left;
 }
+h2 {
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'BMEuljiro';
+  src: url(./fonts/BMEULJIROTTF.ttf);
+}

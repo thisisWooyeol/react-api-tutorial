@@ -2,6 +2,8 @@ import './App.css';
 
 import { useEffect, useState } from 'react';
 
+import { Separator } from '@/components/ui/separator';
+
 import { PostDetail } from './PostDetail';
 import { PostList } from './PostList';
 
@@ -47,11 +49,18 @@ export const App = () => {
   };
 
   return (
-    <div className="max-w-screen-lg">
+    <div className="flex justify-center">
       {posts != null && (
-        <div className="grid grid-flow-col m-8">
-          <PostList posts={posts} onPostClickBuilder={onPostClickBuilder} />
-          <PostDetail selectedPost={posts.at(selectedPostId - 1)} />
+        <div className="m-4 grid max-w-screen-lg grid-flow-col gap-x-4 border border-zinc-300 p-6">
+          <div className="w-[25vw]">
+            <PostList posts={posts} onPostClickBuilder={onPostClickBuilder} />
+          </div>
+          <Separator orientation="vertical" />
+          <PostDetail
+            selectedPost={posts.find(
+              (_post: Post) => _post.id === selectedPostId,
+            )}
+          />
         </div>
       )}
     </div>
