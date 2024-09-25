@@ -2,10 +2,9 @@ import './App.css';
 
 import { useEffect, useState } from 'react';
 
+import { PostDetail } from '@/components/PostDetail';
+import { PostList } from '@/components/PostList';
 import { Separator } from '@/components/ui/separator';
-
-import { PostDetail } from './PostDetail';
-import { PostList } from './PostList';
 
 export type Post = {
   userId: number;

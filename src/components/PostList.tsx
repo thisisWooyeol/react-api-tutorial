@@ -1,3 +1,4 @@
+import { type Post } from '@/App';
 import {
   Card,
   CardDescription,
@@ -5,8 +6,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-
-import { type Post } from './App';
 
 type PostListProps = {
   posts: Post[];
