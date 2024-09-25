@@ -47,9 +47,9 @@ export const App = () => {
   };
 
   return (
-    <div className="max-w-screen-lg">
+    <div className="flex justify-center">
       {posts != null && (
-        <div className="grid grid-flow-col m-8">
+        <div className="grid grid-flow-col max-w-screen-lg m-8">
           <PostList posts={posts} onPostClickBuilder={onPostClickBuilder} />
           <PostDetail selectedPost={posts.at(selectedPostId - 1)} />
         </div>
