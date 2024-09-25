@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { baseUrl, type Post } from '@/App';
+import { LoadingComments } from '@/components/Loading';
 import {
   Card,
   CardContent,
@@ -10,7 +11,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { Skeleton } from '@/components/ui/skeleton';
 
 type PostDetailProps = {
   selectedPost: Post | undefined;
@@ -109,12 +109,7 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
               <ul>
                 {[1, 2, 3].map((stubId) => (
                   <li key={stubId} className="rborder-b border-zinc-200 py-2">
-                    <Skeleton className="h-4 w-1/2" />
-                    <div className="space-y-2">
-                      <Skeleton className="h-4 w-full" />
-                      <Skeleton className="h-4 w-full" />
-                      <Skeleton className="h-4 w-full" />
-                    </div>
+                    <LoadingComments />
                   </li>
                 ))}
               </ul>
