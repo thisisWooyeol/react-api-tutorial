@@ -1,6 +1,5 @@
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -17,21 +16,23 @@ type PostListProps = {
 export const PostList = ({ posts, onPostClickBuilder }: PostListProps) => {
   return (
     <div>
-      <h1 className="text-4xl">포스트 목록</h1>
-      <ScrollArea className="h-svh overflow-y-auto">
+      <h1 className="p-6 text-4xl" style={{ fontFamily: 'BMEuljiro' }}>
+        포스트 목록
+      </h1>
+      <ScrollArea className="h-dvh overflow-y-auto">
         {posts.map((post) => (
           <Card
             key={post.id}
-            className="m-1 hover:opacity-50"
+            className="hover:bg-zinc-200"
             onClick={onPostClickBuilder(post.id)}
           >
             <CardHeader>
               <CardTitle>{post.title}</CardTitle>
               <CardDescription>작성자: {post.userId}</CardDescription>
             </CardHeader>
-            <CardContent>
+            {/* <CardContent>
               <p>{post.body}</p>
-            </CardContent>
+            </CardContent> */}
           </Card>
         ))}
       </ScrollArea>
