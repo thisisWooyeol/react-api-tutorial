@@ -1,5 +1,6 @@
 import './global.css';
 
+import { AlertCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { PostDetail } from './PostDetail';
@@ -20,32 +21,32 @@ export type Comment = {
   body: string;
 };
 
-const fetchPosts = async (baseUrl: string): Promise<Post[]> => {
+export const baseUrl = 'https://jsonplaceholder.typicode.com';
+
+const fetchPosts = async (): Promise<Post[]> => {
   const response = await fetch(`${baseUrl}/posts`);
   const data = (await response.json()) as Post[];
   return data;
 };
 
 export const App = () => {
-  const baseUrl = 'https://jsonplaceholder.typicode.com';
   const [posts, setPosts] = useState<Post[]>();
   const [selectedPostId, setSelectedPost] = useState(1);
 
   /* fetchPosts */
   useEffect(() => {
     let ignore = false;
-    fetchPosts(baseUrl)
+    fetchPosts()
       .then((data) => {
         if (!ignore) setPosts(data);
       })
       .catch((error: unknown) => {
         console.error(error);
-        alert('데이터를 불러오지 못하였습니다.');
       });
     return () => {
       ignore = true;
     };
-  }, [baseUrl]);
+  }, []);
 
   /* handle post selection */
   const onPostClickBuilder = (postId: number) => () => {
@@ -56,9 +57,11 @@ export const App = () => {
   return (
     <div>
       {posts != null && (
-        <PostList posts={posts} onPostClickBuilder={onPostClickBuilder} />
+        <div className="grid grid-flow-col justify-center m-8">
+          <PostList posts={posts} onPostClickBuilder={onPostClickBuilder} />
+          <PostDetail selectedPost={posts.at(selectedPostId - 1)} />
+        </div>
       )}
-      <PostDetail baseUrl={baseUrl} selectedPostId={selectedPostId} />
     </div>
   );
 };
