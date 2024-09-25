@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { baseUrl, type Post } from '@/App';
 import {
   Card,
   CardContent,
@@ -9,8 +10,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-
-import { baseUrl, type Post } from './App';
+import { Skeleton } from '@/components/ui/skeleton';
 
 type PostDetailProps = {
   selectedPost: Post | undefined;
@@ -35,6 +35,7 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
 
   useEffect(() => {
     let ignore = false;
+    setComments(undefined);
     if (selectedPost != null) {
       fetchComments(selectedPost.id)
         .then((_comments) => {
@@ -52,7 +53,7 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
 
   return (
     <div>
-      {/* 내용 컴포넌트 */}
+      {/** 내용 컴포넌트 */}
       <h1 className="p-6 text-4xl" style={{ fontFamily: 'BMEuljiro' }}>
         내용
       </h1>
@@ -69,7 +70,7 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
       )}
       <Separator />
 
-      {/* 댓글 컴포넌트 */}
+      {/** 댓글 컴포넌트 */}
       <Card>
         <CardHeader>
           <CardTitle className="text-3xl" style={{ fontFamily: 'BMEuljiro' }}>
@@ -79,7 +80,9 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
             {comments != null ? comments.length : 0}개의 댓글
           </CardDescription>
         </CardHeader>
-        {comments != null && (
+
+        {/** 로딩중일 땐 Skeleton을 표시 */}
+        {comments != null ? (
           <>
             <CardContent>
               <ul>
@@ -99,6 +102,23 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
                 Load More
               </button>
             </CardFooter>
+          </>
+        ) : (
+          <>
+            <CardContent>
+              <ul>
+                {[1, 2, 3].map((stubId) => (
+                  <li key={stubId} className="rborder-b border-zinc-200 py-2">
+                    <Skeleton className="h-4 w-1/2" />
+                    <div className="space-y-2">
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-full" />
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
           </>
         )}
       </Card>
