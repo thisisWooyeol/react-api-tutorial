@@ -9,10 +9,18 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
-import { baseUrl, type Comment, type Post } from './App';
+import { baseUrl, type Post } from './App';
 
 type PostDetailProps = {
   selectedPost: Post | undefined;
+};
+
+type Comment = {
+  postId: number;
+  id: number;
+  name: string;
+  email: string;
+  body: string;
 };
 
 const fetchComments = async (selectedPostId: number): Promise<Comment[]> => {
@@ -33,12 +41,13 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
         })
         .catch((error: unknown) => {
           console.error(error);
+          window.alert('데이터를 가져오지 못했습니다.');
         });
       return () => {
         ignore = true;
       };
     }
-  });
+  }, [selectedPost]);
 
   return (
     <div>

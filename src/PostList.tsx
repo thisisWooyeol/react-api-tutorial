@@ -16,7 +16,7 @@ type PostListProps = {
 
 export const PostList = ({ posts, onPostClickBuilder }: PostListProps) => {
   return (
-    <div className="m-8">
+    <div>
       <h1 className="text-4xl">포스트 목록</h1>
       <ScrollArea className="h-svh overflow-y-auto">
         {posts.map((post) => (

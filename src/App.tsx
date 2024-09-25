@@ -1,6 +1,5 @@
-import './global.css';
+import './App.css';
 
-import { AlertCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { PostDetail } from './PostDetail';
@@ -10,14 +9,6 @@ export type Post = {
   userId: number;
   id: number;
   title: string;
-  body: string;
-};
-
-export type Comment = {
-  postId: number;
-  id: number;
-  name: string;
-  email: string;
   body: string;
 };
 
@@ -42,6 +33,7 @@ export const App = () => {
       })
       .catch((error: unknown) => {
         console.error(error);
+        window.alert('데이터를 가져오지 못했습니다');
       });
     return () => {
       ignore = true;
@@ -55,9 +47,9 @@ export const App = () => {
   };
 
   return (
-    <div>
+    <div className="max-w-screen-lg">
       {posts != null && (
-        <div className="grid grid-flow-col justify-center m-8">
+        <div className="grid grid-flow-col m-8">
           <PostList posts={posts} onPostClickBuilder={onPostClickBuilder} />
           <PostDetail selectedPost={posts.at(selectedPostId - 1)} />
         </div>
