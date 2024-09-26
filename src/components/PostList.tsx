@@ -15,11 +15,11 @@ type PostListProps = {
 
 export const PostList = ({ posts, onPostClickBuilder }: PostListProps) => {
   return (
-    <div>
+    <div className="flex h-96 flex-col sm:h-dvh">
       <h1 className="p-6 text-4xl" style={{ fontFamily: 'BMEuljiro' }}>
         포스트 목록
       </h1>
-      <ScrollArea className="h-dvh overflow-y-auto">
+      <ScrollArea className="overflow-y-auto">
         {posts != null ? (
           posts.map((post) => (
             <Card
