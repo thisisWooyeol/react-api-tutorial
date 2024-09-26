@@ -1,5 +1,5 @@
 import { type Post } from '@/App';
-import { LoadingComments } from '@/components/Loading';
+import { LoadingPosts } from '@/components/Loading';
 import {
   Card,
   CardDescription,
@@ -20,22 +20,26 @@ export const PostList = ({ posts, onPostClickBuilder }: PostListProps) => {
         포스트 목록
       </h1>
       <ScrollArea className="h-dvh overflow-y-auto">
-        {posts?.map((post) => (
-          <Card
-            key={post.id}
-            className="border border-zinc-200 shadow hover:bg-zinc-100"
-            onClick={onPostClickBuilder(post.id)}
-          >
-            <CardHeader>
-              <CardTitle className="line-clamp-2 h-8">{post.title}</CardTitle>
-              <CardDescription>작성자: {post.userId}</CardDescription>
-            </CardHeader>
-            {/* <CardContent>
+        {posts != null ? (
+          posts.map((post) => (
+            <Card
+              key={post.id}
+              className="border border-zinc-200 shadow hover:bg-zinc-100"
+              onClick={onPostClickBuilder(post.id)}
+            >
+              <CardHeader>
+                <CardTitle className="line-clamp-2 h-8">{post.title}</CardTitle>
+                <CardDescription>작성자: {post.userId}</CardDescription>
+              </CardHeader>
+              {/* <CardContent>
               <p>{post.body}</p>
             </CardContent> */}
-          </Card>
-        ))}
-        {posts == null && <LoadingComments />}
+            </Card>
+          ))
+        ) : (
+          /** 로딩중입니다... */
+          <LoadingPosts n={10} />
+        )}
       </ScrollArea>
     </div>
   );

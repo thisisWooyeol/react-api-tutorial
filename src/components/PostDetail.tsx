@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { baseUrl, type Post } from '@/App';
-import { LoadingComments } from '@/components/Loading';
+import { LoadingPostDetails } from '@/components/Loading';
 import {
   Card,
   CardContent,
@@ -57,7 +57,7 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
       <h1 className="p-6 text-4xl" style={{ fontFamily: 'BMEuljiro' }}>
         내용
       </h1>
-      {selectedPost != null && (
+      {selectedPost != null ? (
         <Card key={selectedPost.id}>
           <CardHeader>
             <CardTitle>{selectedPost.title}</CardTitle>
@@ -67,8 +67,9 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
             <p>{selectedPost.body}</p>
           </CardContent>
         </Card>
+      ) : (
+        <LoadingPostDetails n={1} />
       )}
-      {selectedPost == null && <LoadingComments />}
       <Separator />
 
       {/** 댓글 컴포넌트 */}
@@ -106,7 +107,7 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
           </>
         ) : (
           <CardContent>
-            <LoadingComments />
+            <LoadingPostDetails n={5} />
           </CardContent>
         )}
       </Card>
