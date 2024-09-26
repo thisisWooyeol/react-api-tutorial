@@ -48,7 +48,7 @@ export const App = () => {
   };
 
   return (
-    <div className="flex justify-center text-pretty">
+    <div className="m-2 flex justify-center text-pretty sm:m-10">
       <div className="flex w-full max-w-screen-lg flex-col border border-zinc-300 p-6 sm:flex-row sm:gap-x-4">
         <div className="w-full flex-none sm:w-1/3">
           <PostList posts={posts} onPostClickBuilder={onPostClickBuilder} />
