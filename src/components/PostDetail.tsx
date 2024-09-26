@@ -35,7 +35,6 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
 
   useEffect(() => {
     let ignore = false;
-    setComments(undefined);
     if (selectedPost != null) {
       fetchComments(selectedPost.id)
         .then((_comments) => {
@@ -47,6 +46,7 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
         });
       return () => {
         ignore = true;
+        setComments(undefined);
       };
     }
   }, [selectedPost]);
@@ -68,6 +68,7 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
           </CardContent>
         </Card>
       )}
+      {selectedPost == null && <LoadingComments />}
       <Separator />
 
       {/** 댓글 컴포넌트 */}
@@ -91,7 +92,7 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
                     key={comment.id}
                     className="border-b border-zinc-200 py-2"
                   >
-                    <h2 className="text-l py-2">작성자: {comment.email}</h2>
+                    <h4 className="text-l py-2">작성자: {comment.email}</h4>
                     <p>{comment.body}</p>
                   </li>
                 ))}
@@ -104,17 +105,9 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
             </CardFooter>
           </>
         ) : (
-          <>
-            <CardContent>
-              <ul>
-                {[1, 2, 3].map((stubId) => (
-                  <li key={stubId} className="rborder-b border-zinc-200 py-2">
-                    <LoadingComments />
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </>
+          <CardContent>
+            <LoadingComments />
+          </CardContent>
         )}
       </Card>
     </div>

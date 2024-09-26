@@ -1,4 +1,5 @@
 import { type Post } from '@/App';
+import { LoadingComments } from '@/components/Loading';
 import {
   Card,
   CardDescription,
@@ -8,7 +9,7 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 type PostListProps = {
-  posts: Post[];
+  posts: Post[] | undefined;
   onPostClickBuilder: (postId: number) => () => void;
 };
 
@@ -19,14 +20,14 @@ export const PostList = ({ posts, onPostClickBuilder }: PostListProps) => {
         포스트 목록
       </h1>
       <ScrollArea className="h-dvh overflow-y-auto">
-        {posts.map((post) => (
+        {posts?.map((post) => (
           <Card
             key={post.id}
-            className="hover:bg-zinc-200"
+            className="border border-zinc-200 shadow hover:bg-zinc-100"
             onClick={onPostClickBuilder(post.id)}
           >
             <CardHeader>
-              <CardTitle>{post.title}</CardTitle>
+              <CardTitle className="line-clamp-2 h-8">{post.title}</CardTitle>
               <CardDescription>작성자: {post.userId}</CardDescription>
             </CardHeader>
             {/* <CardContent>
@@ -34,6 +35,7 @@ export const PostList = ({ posts, onPostClickBuilder }: PostListProps) => {
             </CardContent> */}
           </Card>
         ))}
+        {posts == null && <LoadingComments />}
       </ScrollArea>
     </div>
   );

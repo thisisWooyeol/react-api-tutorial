@@ -48,20 +48,20 @@ export const App = () => {
   };
 
   return (
-    <div className="flex justify-center">
-      {posts != null && (
-        <div className="m-4 grid max-w-screen-lg grid-flow-col gap-x-4 border border-zinc-300 p-6">
-          <div className="w-[25vw]">
-            <PostList posts={posts} onPostClickBuilder={onPostClickBuilder} />
-          </div>
-          <Separator orientation="vertical" />
+    <div className="flex justify-center text-pretty">
+      <div className="flex w-full max-w-screen-lg gap-x-4 border border-zinc-300 p-6">
+        <div className="w-[25vw] flex-none">
+          <PostList posts={posts} onPostClickBuilder={onPostClickBuilder} />
+        </div>
+        <Separator orientation="vertical" className="mx-2 w-px" />
+        <div className="flex-grow">
           <PostDetail
-            selectedPost={posts.find(
+            selectedPost={posts?.find(
               (_post: Post) => _post.id === selectedPostId,
             )}
           />
         </div>
-      )}
+      </div>
     </div>
   );
 };
