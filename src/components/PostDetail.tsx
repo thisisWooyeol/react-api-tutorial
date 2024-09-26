@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { baseUrl, type Post } from '@/App';
+import { LoadingPostDetails } from '@/components/Loading';
 import {
   Card,
   CardContent,
@@ -9,8 +11,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-
-import { baseUrl, type Post } from './App';
 
 type PostDetailProps = {
   selectedPost: Post | undefined;
@@ -46,17 +46,18 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
         });
       return () => {
         ignore = true;
+        setComments(undefined);
       };
     }
   }, [selectedPost]);
 
   return (
     <div>
-      {/* 내용 컴포넌트 */}
+      {/** 내용 컴포넌트 */}
       <h1 className="p-6 text-4xl" style={{ fontFamily: 'BMEuljiro' }}>
         내용
       </h1>
-      {selectedPost != null && (
+      {selectedPost != null ? (
         <Card key={selectedPost.id}>
           <CardHeader>
             <CardTitle>{selectedPost.title}</CardTitle>
@@ -66,10 +67,12 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
             <p>{selectedPost.body}</p>
           </CardContent>
         </Card>
+      ) : (
+        <LoadingPostDetails n={1} />
       )}
       <Separator />
 
-      {/* 댓글 컴포넌트 */}
+      {/** 댓글 컴포넌트 */}
       <Card>
         <CardHeader>
           <CardTitle className="text-3xl" style={{ fontFamily: 'BMEuljiro' }}>
@@ -79,7 +82,9 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
             {comments != null ? comments.length : 0}개의 댓글
           </CardDescription>
         </CardHeader>
-        {comments != null && (
+
+        {/** 로딩중일 땐 Skeleton을 표시 */}
+        {comments != null ? (
           <>
             <CardContent>
               <ul>
@@ -88,7 +93,7 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
                     key={comment.id}
                     className="border-b border-zinc-200 py-2"
                   >
-                    <h2 className="text-l py-2">작성자: {comment.email}</h2>
+                    <h4 className="text-l py-2">작성자: {comment.email}</h4>
                     <p>{comment.body}</p>
                   </li>
                 ))}
@@ -100,6 +105,10 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
               </button>
             </CardFooter>
           </>
+        ) : (
+          <CardContent>
+            <LoadingPostDetails n={5} />
+          </CardContent>
         )}
       </Card>
     </div>

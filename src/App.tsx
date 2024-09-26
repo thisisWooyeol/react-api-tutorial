@@ -2,10 +2,9 @@ import './App.css';
 
 import { useEffect, useState } from 'react';
 
+import { PostDetail } from '@/components/PostDetail';
+import { PostList } from '@/components/PostList';
 import { Separator } from '@/components/ui/separator';
-
-import { PostDetail } from './PostDetail';
-import { PostList } from './PostList';
 
 export type Post = {
   userId: number;
@@ -49,20 +48,22 @@ export const App = () => {
   };
 
   return (
-    <div className="flex justify-center">
-      {posts != null && (
-        <div className="m-4 grid max-w-screen-lg grid-flow-col gap-x-4 border border-zinc-300 p-6">
-          <div className="w-[25vw]">
-            <PostList posts={posts} onPostClickBuilder={onPostClickBuilder} />
-          </div>
-          <Separator orientation="vertical" />
+    <div className="flex justify-center text-pretty">
+      <div className="flex w-full max-w-screen-lg flex-col border border-zinc-300 p-6 sm:flex-row sm:gap-x-4">
+        <div className="w-full flex-none sm:w-1/3">
+          <PostList posts={posts} onPostClickBuilder={onPostClickBuilder} />
+        </div>
+        <div className="hidden sm:block">
+          <Separator orientation="vertical" className="mx-2" />
+        </div>
+        <div className="flex-grow">
           <PostDetail
-            selectedPost={posts.find(
+            selectedPost={posts?.find(
               (_post: Post) => _post.id === selectedPostId,
             )}
           />
         </div>
-      )}
+      </div>
     </div>
   );
 };
