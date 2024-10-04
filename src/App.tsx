@@ -23,7 +23,7 @@ const fetchPosts = async (): Promise<Post[]> => {
 
 export const App = () => {
   const [posts, setPosts] = useState<Post[]>();
-  const [selectedPostId, setSelectedPost] = useState(1);
+  const [selectedPostId, setSelectedPost] = useState<number>();
 
   /* fetchPosts */
   useEffect(() => {
@@ -34,7 +34,7 @@ export const App = () => {
       })
       .catch((error: unknown) => {
         console.error(error);
-        window.alert('데이터를 가져오지 못했습니다');
+        // window.alert(error);
       });
     return () => {
       ignore = true;
@@ -58,9 +58,10 @@ export const App = () => {
         </div>
         <div className="flex-grow">
           <PostDetail
-            selectedPost={posts?.find(
-              (_post: Post) => _post.id === selectedPostId,
-            )}
+            selectedPost={
+              posts?.find((_post: Post) => _post.id === selectedPostId) ??
+              posts?.at(0)
+            }
           />
         </div>
       </div>
