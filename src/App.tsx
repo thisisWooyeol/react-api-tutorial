@@ -15,8 +15,8 @@ export type Post = {
 
 export const baseUrl = 'https://jsonplaceholder.typicode.com';
 
-const fetchPosts = async (): Promise<Post[]> => {
-  const response = await fetch(`${baseUrl}/posts`);
+const fetchPosts = async (signal: AbortSignal): Promise<Post[]> => {
+  const response = await fetch(`${baseUrl}/posts`, { signal });
   const data = (await response.json()) as Post[];
   return data;
 };
@@ -27,17 +27,25 @@ export const App = () => {
 
   /* fetchPosts */
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     let ignore = false;
-    fetchPosts()
+    fetchPosts(signal)
       .then((data) => {
         if (!ignore) setPosts(data);
       })
       .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === 'AbortError') {
+          console.debug('Fetch aborted');
+          return;
+        }
         console.error(error);
         // window.alert(error);
       });
     return () => {
       ignore = true;
+      controller.abort();
     };
   }, []);
 
