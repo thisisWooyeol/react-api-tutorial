@@ -34,7 +34,7 @@ export const PostDetail = ({ selectedPost }: PostDetailProps) => {
         })
         .catch((error: unknown) => {
           console.error(error);
-          window.alert('데이터를 가져오지 못했습니다.');
+          // window.alert(error);
         });
     }
     return () => {
